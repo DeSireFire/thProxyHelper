@@ -33,8 +33,6 @@ class GetToken():
             'authority': 'portal.touhou.tel',
             'x-requested-with': 'XMLHttpRequest',
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36',
-            # 'origin': 'https://portal.touhou.tel',
-            # 'referer': 'https://portal.touhou.tel/user',
         }
         self.cookies = None
         self.session = requests.session()
@@ -89,8 +87,13 @@ class GetToken():
 if __name__ == '__main__':
     gettoken = GetToken()
     loginUser = gettoken.loginUser()
+    res_json = {}
     checkInSignin = gettoken.checkInSignin()
-    res_json = json.loads(checkInSignin.text)
+    try:
+        res_json = json.loads(checkInSignin.text)
+    except Exception as e:
+        print(checkInSignin.text)
+        print(f"错误！{e}")
     loginOut = gettoken.loginOut()
     print(res_json)
     print("签到完成！")
